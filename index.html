@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>جاري التحميل...</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
+        .box { background: white; padding: 20px; border-radius: 8px; display: inline-block; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>جاري تحويلك... يرجى الانتظار</h2>
+        <p id="ip-display">جاري جلب البيانات...</p>
+    </div>
+
+    <script>
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                let userIp = data.ip;
+                document.getElementById('ip-display').innerText = "عنوان الـ IP الخاص بك هو: " + userIp;
+            })
+            .catch(error => {
+                document.getElementById('ip-display').innerText = "عذراً، حدث خطأ.";
+            });
+    </script>
+</body>
+</html>
